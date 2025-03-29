@@ -1,0 +1,25 @@
+<div class="search-container">
+  <input 
+    type="text" 
+    [(ngModel)]="searchTerm" 
+    (input)="search(searchTerm)" 
+    placeholder="Search..."
+    class="search-input"
+  >
+  
+  <div *ngIf="searchResults$ | async as results">
+    <div *ngIf="results.length > 0; else noResults">
+      <ul class="results-list">
+        <li *ngFor="let item of results">
+          {{ item.name }}
+        </li>
+      </ul>
+    </div>
+    
+    <ng-template #noResults>
+      <div *ngIf="searchTerm && searchTerm.length > 0" class="no-results">
+        No results found for "{{ searchTerm }}"
+      </div>
+    </ng-template>
+  </div>
+</div>
