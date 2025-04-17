@@ -37,6 +37,9 @@ yarn-error.log
 testem.log
 /typings
 
+src/server/.idea/
+src/server/..venv/
+
 # System files
 .DS_Store
 Thumbs.db

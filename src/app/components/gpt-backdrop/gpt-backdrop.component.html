@@ -28,7 +28,7 @@
       }
     </mat-select>
 
-    <p>years, with a budget range of</p>
+    <p>, with a budget range of</p>
     <mat-select class="mat-dropdown" [(ngModel)]="selectedBudget" name="budget-range">
       @for (programBudget of programBudgets; track programBudget) {
       <mat-option [value]="programBudget.value">
