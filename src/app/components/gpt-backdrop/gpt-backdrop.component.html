@@ -1,0 +1,47 @@
+<section>
+  <h1 class="title-text">How can UniWise help you?</h1>
+  <div class="full-width-form">
+    <p>I'm planning to pursue a</p>
+    <mat-select class="mat-dropdown" [(ngModel)]="selectedType" name="program-type">
+      @for (programType of programTypes; track programType) {
+      <mat-option [value]="programType.value">
+      {{ programType.viewValue }}
+      </mat-option>
+      }
+    </mat-select>
+
+    <p>program in</p>
+    <mat-select class="mat-dropdown" [(ngModel)]="selectedField" name="program-field">
+      @for (programField of programFields; track programField) {
+      <mat-option [value]="programField.value">
+      {{ programField.viewValue }}
+      </mat-option>
+      }
+    </mat-select>
+
+    <p>within</p>
+    <mat-select class="mat-dropdown" [(ngModel)]="selectedDuration" name="program-duration">
+      @for (programDuration of programDurations; track programDuration) {
+      <mat-option [value]="programDuration.value">
+      {{ programDuration.viewValue }}
+      </mat-option>
+      }
+    </mat-select>
+
+    <p>years, with a budget range of</p>
+    <mat-select class="mat-dropdown" [(ngModel)]="selectedBudget" name="budget-range">
+      @for (programBudget of programBudgets; track programBudget) {
+      <mat-option [value]="programBudget.value">
+      {{ programBudget.viewValue }}
+      </mat-option>
+      }
+    </mat-select>
+    <div>
+      <button class="submit-btn">
+        <span class="material-symbols-outlined arrow-icon">arrow_upward</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+

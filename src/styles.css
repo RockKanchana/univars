@@ -1,11 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
 html,
- body { 
-    height: 100%; 
-    margin: 0; 
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-     --mat-toolbar-container-background-color: ghostwhite;
+ body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  font-family: Lexend, "Helvetica Neue", sans-serif;
+   --mat-toolbar-container-background-color: ghostwhite;
+  background: #141414;
+  color: #fff;
 }
 
 .mat-typography-h3{
