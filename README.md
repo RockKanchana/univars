@@ -50,12 +50,17 @@ UniWise addresses these problems by:
 
 ![uniwise_architecture](public/uniwise.png)
 
+### Pre-requisites
+- Install **Python**: 3.10 or higher
+- Install **Node.js**: 20 or higher
+- Run **Ollama**: 3.2 or higher in you machine (https://ollama.com/download)
+
 ## 🚀 Installation
 
 ### Clone the repo:
 
 ```bash
-git clone https://github.com/your-username/uniwise.git
+git clone https://github.com/RockKanchana/univars.git
 cd uniwise
 
 npm install
@@ -64,5 +69,5 @@ pip install -r requirements.txt
 npm run start
 ````
 This runs both:
-- ```ng serve (Angular frontend)```
-- ```python3 app.py (Python backend)```
+- ```ng serve``` (Angular FE)
+- ```python3 app.py``` (Python BE)
