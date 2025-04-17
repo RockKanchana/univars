@@ -1,14 +1,12 @@
 .full-width-form {
   display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
+  flex-direction: column;
   width: 90vw;
   padding: 2rem;
   margin: 2rem;
   box-sizing: border-box;
   gap: 0.8rem;
   background: #222222;
-  justify-content: center;
   border-radius: 10px;
 }
 
@@ -24,10 +22,23 @@ p {
 }
 
 .mat-dropdown {
-  padding: 0 20px;
+  padding: 5px 20px;
+  margin: 0 10px;
   border: 1px solid #ffffff;
-  border-radius: 5px;
+  border-radius: 20px;
   color: #ffffff;
+  height: fit-content;
+}
+
+.dropdown-container {
+  display: flex;
+  line-height: 0;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
 }
 
 .title-text {
@@ -37,10 +48,20 @@ p {
 }
 
 .submit-btn {
-  border-radius: 50px;
-  height: 40px;
-  width: 40px;
+  border-radius: 20px;
   cursor: pointer;
+  font-size: 20px;
+  padding: 8px 20px;
+  background: transparent;
+  color: white;
+  outline: none;
+  border: 1px solid white;
+
+  &:disabled {
+    color: #999;
+    border: 1px solid #999;
+    cursor: not-allowed;
+  }
 }
 
 .arrow-icon {
@@ -48,8 +69,14 @@ p {
 }
 
 .result-section {
+  width: 90vw;
   padding: 50px;
   white-space: break-spaces;
   max-height: 500px;
   overflow-y: scroll;
+}
+
+.error-message {
+  display: flex;
+  justify-content: center;
 }

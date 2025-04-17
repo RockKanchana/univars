@@ -1,59 +1,68 @@
-# UniWise
+# UniWise 🎓
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
+**UniWise** is an AI-powered smart guidance tool that helps students make informed decisions about higher education. Tailored for private universities in Sri Lanka, UniWise simplifies course selection by providing real-time, accurate, and personalized information — all in one place.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚩 Problem Statement
+
+Choosing the right higher education path can be challenging due to:
+
+- Varying tuition costs, course structures, and durations across institutions.
+- Manual research being time-consuming and often inaccurate.
+- A lack of personalized, centralized guidance for students.
+
+---
+
+## ✅ The Solution
+
+UniWise addresses these problems by:
+
+- Aggregating data from multiple university websites through web scraping.
+- Using an AI-powered engine to compare tuition fees, course durations, structures, and installment plans.
+- Offering personalized recommendations based on user preferences, financial capacity, and career goals.
+- Delivering structured and easy-to-understand information through an interactive, user-friendly interface.
+
+---
+
+## 🔍 Key Features
+
+- 📡 **Real-Time Data**: Pulls up-to-date course details directly from official university sources.
+- ✅ **Accurate & Reliable**: Offers precision-driven results to aid confident decision-making.
+- 🧭 **Smart Recommendations**: AI-based suggestions personalized to the user's goals and preferences.
+- 🧮 **Comparison Matrix**: Helps compare programs easily based on key attributes.
+- 🎯 **Advanced Filtering**: Filter by cost, duration, course level (Certification, Diploma, HND, Bachelor's, Master's), and more.
+- 🔔 **Notifications**: Alerts users about upcoming batch commencement dates.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend**: Angular 19
+- **Backend**: Python (FastAPI/Flask recommended)
+- **Database**: MongoDB
+- **AI/LLM Engine**: Ollama 3.2
+- **Architecture**: Retrieval-Augmented Generation (RAG)
+
+---
+
+## ⚙️ System Architecture
+
+![uniwise_architecture](public/uniwise.png)
+
+## 🚀 Installation
+
+### Clone the repo:
 
 ```bash
-ng serve
-```
+git clone https://github.com/your-username/uniwise.git
+cd uniwise
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+npm install
+pip install -r requirements.txt
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+npm run start
+````
+This runs both:
+- ```ng serve (Angular frontend)```
+- ```python3 app.py (Python backend)```

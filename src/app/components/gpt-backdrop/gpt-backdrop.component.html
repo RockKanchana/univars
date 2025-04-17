@@ -1,53 +1,63 @@
 <section>
   <h1 class="title-text">How can UniWise help you?</h1>
   <div class="full-width-form">
-    <p>I'm planning to pursue a</p>
-    <mat-select class="mat-dropdown" [(ngModel)]="selectedType" name="program-type">
-      @for (programType of programTypes; track programType) {
-      <mat-option [value]="programType.value">
-      {{ programType.viewValue }}
-      </mat-option>
-      }
-    </mat-select>
+    <div class="dropdown-container">
+      <p>I'm planning to pursue a/an</p>
+      <mat-select class="mat-dropdown" [(ngModel)]="selectedType" name="program-type" [disabled]="isLoading">
+        @for (programType of programTypes; track programType) {
+        <mat-option [value]="programType.value">
+        {{ programType.viewValue }}
+        </mat-option>
+        }
+      </mat-select>
 
-    <p>program in</p>
-    <mat-select class="mat-dropdown" [(ngModel)]="selectedField" name="program-field">
-      @for (programField of programFields; track programField) {
-      <mat-option [value]="programField.value">
-      {{ programField.viewValue }}
-      </mat-option>
-      }
-    </mat-select>
+      <p>in</p>
+      <mat-select class="mat-dropdown" [(ngModel)]="selectedField" name="program-field" [disabled]="isLoading">
+        @for (programField of programFields; track programField) {
+        <mat-option [value]="programField.value">
+        {{ programField.viewValue }}
+        </mat-option>
+        }
+      </mat-select>
 
-    <p>within</p>
-    <mat-select class="mat-dropdown" [(ngModel)]="selectedDuration" name="program-duration">
-      @for (programDuration of programDurations; track programDuration) {
-      <mat-option [value]="programDuration.value">
-      {{ programDuration.viewValue }}
-      </mat-option>
-      }
-    </mat-select>
+      <p>within a duration of</p>
+      <mat-select class="mat-dropdown" [(ngModel)]="selectedDuration" name="program-duration" [disabled]="isLoading">
+        @for (programDuration of programDurations; track programDuration) {
+        <mat-option [value]="programDuration.value">
+        {{ programDuration.viewValue }}
+        </mat-option>
+        }
+      </mat-select>
 
-    <p>, with a budget range of</p>
-    <mat-select class="mat-dropdown" [(ngModel)]="selectedBudget" name="budget-range">
-      @for (programBudget of programBudgets; track programBudget) {
-      <mat-option [value]="programBudget.value">
-      {{ programBudget.viewValue }}
-      </mat-option>
-      }
-    </mat-select>
-    @if (!isLoading) {
-      <div>
-        <button class="submit-btn" (click)="onPrompt()">
-          <span class="material-symbols-outlined arrow-icon">arrow_upward</span>
-        </button>
-      </div>
+      <p>, with an estimated budget of</p>
+      <mat-select class="mat-dropdown" [(ngModel)]="selectedBudget" name="budget-range" [disabled]="isLoading">
+        @for (programBudget of programBudgets; track programBudget) {
+        <mat-option [value]="programBudget.value">
+        {{ programBudget.viewValue }}
+        </mat-option>
+        }
+      </mat-select>
+    </div>
+      @if (!isLoading) {
+        <div class="button-container">
+          <button class="submit-btn"
+                  (click)="onPrompt()"
+                  [disabled]="(!this.selectedType || !this.selectedField || !this.selectedDuration || !this.selectedBudget)">
+                  Please help me to find the best suited program based on my requirements
+          </button>
+        </div>
     }
-  </div>
+    </div>
   @if (isLoading) {
     <app-loader></app-loader>
   }
-  <div class="result-section" [innerHTML]=this.result?.summary></div>
+
+  @if (isError && !isLoading) {
+    <div class="error-message">
+      <p>Something went wrong!</p>
+    </div>
+  }
+  <div class="result-section" [innerHTML]="result?.summary"></div>
 </section>
 
 

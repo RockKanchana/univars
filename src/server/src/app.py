@@ -1,10 +1,14 @@
+import traceback
+from concurrent.futures import ThreadPoolExecutor
+
+import asyncio
+from crawl4ai import AsyncWebCrawler
+
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 
 import sys
 import time
-import requests
-import pandas as pd
 from bs4 import BeautifulSoup
 import ollama
 from firecrawl.firecrawl import FirecrawlApp
@@ -23,35 +27,46 @@ class ExtractSchema(BaseModel):
 
 def scrape_page_content(url):
     firecrawl_app = FirecrawlApp(api_key=FIRECRAWL_API_KEY)
-
-    for i in range(5):  # Shortened for performance
-        sys.stdout.write(f"\rExtracting... {i * 20}%")
-        sys.stdout.flush()
-        time.sleep(0.3)
-
     scrape_status = firecrawl_app.scrape_url(
         url,
         params={'formats': ['markdown', 'html']}
     )
 
+    # async with AsyncWebCrawler(verbose=True) as crawler:
+    #   result = await crawler.arun(url)
+    #   print(result.markdown)
+
     return {"content": scrape_status}
 
-def generate_llm_summary(page_data):
+def generate_llm_summary(page_data, program_type, program_field, program_duration, program_fee):
     prompt = f"""
-        Based on the following course details, generate a structured comparison matrix and table
-        in HTML format (with table border).
+        You are a smart assistant helping students to choose the right academic program.
+
+        The following is the course information dump:
 
         {page_data}
 
-        Provide a HTML table with columns: Course Name, Duration, Fee in LKR, Key Topics.
-        Also, generate a short comparison matrix for top courses in HTML.
+        From above data please filter and show only the courses that meet **all** of the following
+        criteria:
+        - Program Type: {program_type}
+        - Program Field: {program_field}
+        - Program Duration: {program_duration}
+        - Program Fee: {program_fee}
+
+        Generate & output the results as **pure HTML**, with a single `<table border='1'>` using
+        these columns:
+        - Course Name
+        - Duration
+        - Fee in LKR
+        - Key Topics
+        - Offering Institute/University
+        - Next Intake Date
+
+        [IMPORTANT] Do not include any code snippets, explanations, or extra text.
+
+        If there is no any courses match, return a simple paragraph saying: “No matching courses
+        found.”
     """
-
-    for i in range(5):
-        sys.stdout.write(f"\rGenerating... {i * 20}%")
-        sys.stdout.flush()
-        time.sleep(0.3)
-
     response = ollama.chat(
         model="llama3.2",
         messages=[
@@ -61,6 +76,18 @@ def generate_llm_summary(page_data):
     )
 
     return response["message"]["content"]
+
+
+def scrape_and_summarize_single(url, program_type, program_field, program_duration, program_fee):
+  try:
+    page_data = scrape_page_content(url)
+    summary = generate_llm_summary(page_data, program_type, program_field, program_duration,
+                                   program_fee)
+    page_data["summary"] = summary
+    page_data["source_url"] = url
+    return page_data
+  except Exception as e:
+    return {"error": str(e), "source_url": url}
 
 @app.route("/scrape", methods=['GET', 'POST', 'OPTIONS'])
 def scrape_and_summarize():
@@ -72,22 +99,36 @@ def scrape_and_summarize():
         return response
 
     data = request.get_json()
-    url = data.get("url")
+    urls = data.get("url")
+    program_type = data.get("program_type")
+    program_field = data.get("program_field")
+    program_duration = data.get("program_duration")
+    program_fee = data.get("program_fee")
 
-    if not url:
-        return jsonify({"error": "Missing 'url' in request body"}), 400
+    if not urls or not isinstance(urls, list):
+        return jsonify({"error": "'url' should be a list of URLs"}), 400
 
     try:
-        page_data = scrape_page_content(url)
-        summary = generate_llm_summary(page_data)
-        page_data["summary"] = summary
+        all_page_data = []
 
-        # Optionally save to CSV
-        pd.DataFrame([page_data]).to_csv("uniwise_data.csv", index=False)
+        with ThreadPoolExecutor() as executor:
+            futures = [
+                executor.submit(scrape_page_content, u)
+                for u in urls
+            ]
+            for future in futures:
+                result = future.result()
+                if "content" in result:
+                    all_page_data.append(result["content"])
 
-        return jsonify(page_data)
+        combined_content = "\n\n".join(page["content"] for page in all_page_data if "content" in page)
+
+        final_summary = generate_llm_summary(combined_content, program_type, program_field, program_duration, program_fee)
+
+        return jsonify({"summary": final_summary})
 
     except Exception as e:
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
