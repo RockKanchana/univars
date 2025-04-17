@@ -4,6 +4,7 @@
   align-items: center;
   width: 90vw;
   padding: 2rem;
+  margin: 2rem;
   box-sizing: border-box;
   gap: 0.8rem;
   background: #222222;
@@ -44,4 +45,11 @@ p {
 
 .arrow-icon {
   min-width: unset !important;
+}
+
+.result-section {
+  padding: 50px;
+  white-space: break-spaces;
+  max-height: 500px;
+  overflow-y: scroll;
 }

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SearchBarService } from './search-bar.service';
+import { ScraperService } from './scraper.service';
 
-describe('SearchBarService', () => {
-  let service: SearchBarService;
+describe('ScraperService', () => {
+  let service: ScraperService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SearchBarService);
+    service = TestBed.inject(ScraperService);
   });
 
   it('should be created', () => {

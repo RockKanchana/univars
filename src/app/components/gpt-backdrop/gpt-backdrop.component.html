@@ -36,12 +36,18 @@
       </mat-option>
       }
     </mat-select>
-    <div>
-      <button class="submit-btn">
-        <span class="material-symbols-outlined arrow-icon">arrow_upward</span>
-      </button>
-    </div>
+    @if (!isLoading) {
+      <div>
+        <button class="submit-btn" (click)="onPrompt()">
+          <span class="material-symbols-outlined arrow-icon">arrow_upward</span>
+        </button>
+      </div>
+    }
   </div>
+  @if (isLoading) {
+    <app-loader></app-loader>
+  }
+  <div class="result-section" [innerHTML]=this.result?.summary></div>
 </section>
 
 
